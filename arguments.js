@@ -81,3 +81,51 @@ class Cat {
 // notMarkovSays("meow", "me");
 // const notMarkovSays = markov.says.myBind1(pavlov);
 // notMarkovSays("meow", "me");
+
+const curriedSum = function (numArgs) {
+    const numbers = [];
+    return function _curriedSum (num) {
+        numbers.push(num)
+
+        if (numbers.length === numArgs) {
+            const totalSum = numbers.reduce(function (acc, ele) {
+                return acc += ele;
+            })
+            console.log(totalSum);
+        }
+
+        return _curriedSum
+    };
+
+};
+
+// const sum3 = curriedSum(4);
+// sum3(5)(30)(20)(1);
+
+Function.prototype.curry = function (numArgs) {
+    let that = this;
+    const newArray = [];
+    return function _curry (arg) {
+        newArray.push(arg);
+
+        if (newArray.length === numArgs) {
+            return that.apply(null, newArray);
+        } else {
+            return _curry;
+        }
+    };
+};
+
+Function.prototype.curry = function (numArgs) {
+    let that = this;
+    const newArray = [];
+    return function _curry (...arg) {
+        newArray.concat(arg);
+
+        if (newArray.length === numArgs) {
+            return that.apply(null, newArray);
+        } else {
+            return _curry;
+        }
+    };
+};
